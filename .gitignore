@@ -11,6 +11,9 @@
 # Visual Studio cache directory
 .vs/
 
+# Custom Folder
+Assets/Test/
+
 # Gradle cache directory
 .gradle/
 
