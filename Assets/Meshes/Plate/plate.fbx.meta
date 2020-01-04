@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8c254f9d532c84d439b673f8dad64b09
+guid: 1db3880586647694082927ba48c165e9
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
@@ -7,33 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Base_M
-    second: {fileID: 2100000, guid: c99a8f875cafb5d478a66a3c313afef5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Engine_M
-    second: {fileID: 2100000, guid: 9bb4e5092e88c714a9a6e9ea809c49fa, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Lever_M
-    second: {fileID: 2100000, guid: 12bd133c8d7ba1245bc1714f550712b4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Machines_M
-    second: {fileID: 2100000, guid: 618cc92402e17e34c8f1e99eaa8cae41, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: 52c5cb2395768454b985b5ead6408c4d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pull_M
-    second: {fileID: 2100000, guid: b50e3b6df48acab43a9c8d76caa3a933, type: 2}
+    second: {fileID: 2100000, guid: 427c9e0fd5ef899448d2ac3e3f86fbcc, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
