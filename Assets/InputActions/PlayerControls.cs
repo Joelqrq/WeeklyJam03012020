@@ -122,6 +122,33 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""283342b7-3c92-4ae3-8fd0-b4a53a593552"",
+            ""actions"": [
+                {
+                    ""name"": ""Camera_Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""1020abeb-5b40-461b-8368-b6bcb6583240"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6efc22da-1954-4ee8-8838-8c72c269f5ff"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Movement"",
+                    ""action"": ""Camera_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -137,6 +164,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
+        // Camera
+        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+        m_Camera_Camera_Movement = m_Camera.FindAction("Camera_Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -231,6 +261,39 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // Camera
+    private readonly InputActionMap m_Camera;
+    private ICameraActions m_CameraActionsCallbackInterface;
+    private readonly InputAction m_Camera_Camera_Movement;
+    public struct CameraActions
+    {
+        private @PlayerControls m_Wrapper;
+        public CameraActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Camera_Movement => m_Wrapper.m_Camera_Camera_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_Camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void SetCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+            {
+                @Camera_Movement.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnCamera_Movement;
+                @Camera_Movement.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnCamera_Movement;
+                @Camera_Movement.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnCamera_Movement;
+            }
+            m_Wrapper.m_CameraActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Camera_Movement.started += instance.OnCamera_Movement;
+                @Camera_Movement.performed += instance.OnCamera_Movement;
+                @Camera_Movement.canceled += instance.OnCamera_Movement;
+            }
+        }
+    }
+    public CameraActions @Camera => new CameraActions(this);
     private int m_MovementSchemeIndex = -1;
     public InputControlScheme MovementScheme
     {
@@ -245,5 +308,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
+        void OnCamera_Movement(InputAction.CallbackContext context);
     }
 }
