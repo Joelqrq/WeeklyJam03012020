@@ -12,10 +12,15 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Setting")]
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private int dashCount = 1;
+    [SerializeField] private float dashDistance = 2f;
     [Header("Ground Collision Setting")]
     [SerializeField] private Vector3 gcOffset = Vector3.zero;
     [SerializeField] private float gcRadius = 0.5f;
     [SerializeField] private LayerMask gcMask = 0;
+    [Header("Wall Run Setting")]
+    [SerializeField] private Vector3 wcOffset = Vector3.zero;
+    [SerializeField] private float wcDist = 1f;
+    [SerializeField] private LayerMask wcMask = 0;
 
     private Rigidbody rb;
     private PlayerControls playerControls;
@@ -136,21 +141,32 @@ public class PlayerController : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext context)
     {
+        Debug.Log("Dashed");
         if (IsGrounded() || currentDashCount == 0)
             return;
 
         currentDashCount--;
-        rb.velocity = Vector3.zero;
-        rb.AddForce(transform.forward * (PlayerManager.GetMaxSpeed() * 1.5f), ForceMode.Impulse);
         StartCoroutine(DashState());
-        Debug.Log("Dashed");
     }
 
     private IEnumerator DashState()
     {
-        playerControls.Disable();
-        yield return new WaitForSeconds(dashDuration);
-        playerControls.Enable();
+        rb.velocity = Vector3.zero;
+        playerControls.Movement.Walk.Disable();
+        playerControls.Movement.Jump.Disable();
+        Vector3 prevPos = transform.position;
+        float progress = 0f;
+        float tempDuration = dashDuration;
+        while(tempDuration > 0f)
+        {
+            progress += Time.deltaTime / dashDuration;
+            rb.MovePosition(Vector3.Lerp(prevPos, prevPos + (transform.forward * dashDistance), progress));
+            tempDuration -= Time.deltaTime;
+            yield return null;
+        }
+        rb.velocity = Vector3.zero;
+        playerControls.Movement.Walk.Enable();
+        playerControls.Movement.Jump.Enable();
     }
 
     private void RefreshDash()
