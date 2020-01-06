@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pull_M 1
+  m_Name: M_CraneLever
   m_Shader: {fileID: -6465566751694194690, guid: dc52278e6478b584fab1bbf9a5eaaf69,
     type: 3}
   m_ShaderKeywords: _NORMALMAP
@@ -21,19 +21,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_20EF5AE1:
-        m_Texture: {fileID: 2800000, guid: 0b1500ea5ff5f4f49ae524715caf4876, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01df1cb36c1b1f84b8598cddfc8080af, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_4BB6018A:
-        m_Texture: {fileID: 2800000, guid: 9b01a3b232696244da2c18a53298a79c, type: 3}
+        m_Texture: {fileID: 2800000, guid: d49f529c0e7d6de45897f69f2f0d2637, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_8B9BF059:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_A13375F8:
-        m_Texture: {fileID: 2800000, guid: d3003419a5c0e0b419faa1f322364da3, type: 3}
+        m_Texture: {fileID: 2800000, guid: dda8fe4a340d9df449cf7a9ee8ebcdac, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 0b1500ea5ff5f4f49ae524715caf4876, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01df1cb36c1b1f84b8598cddfc8080af, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -53,11 +57,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7d4ce277ec41bf043918c7c5fa08599e, type: 3}
+        m_Texture: {fileID: 2800000, guid: d49f529c0e7d6de45897f69f2f0d2637, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: bce3e573e6d6b904d9c7938d19a4ee04, type: 3}
+        m_Texture: {fileID: 2800000, guid: d90ee4129755d984aaa5555012d5ee65, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -86,6 +90,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - Color_32737B0E: {r: 0, g: 0, b: 0, a: 0}
     - Color_799DE6B8: {r: 0.43529412, g: 0.34901962, b: 0.21960784, a: 0}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
