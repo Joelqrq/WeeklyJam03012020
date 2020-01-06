@@ -10,13 +10,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fallMultiplier = 1.2f;
     [SerializeField] private float directionDamping = 0.2f;
     [Header("Dash Setting")]
-    [SerializeField] private float dashDuration = 0.5f;
-    [SerializeField] private int dashCount = 1;
+    [SerializeField] private float dashMultiplier = 1.5f;
     [SerializeField] private float dashDistance = 2f;
+    [SerializeField] private int dashCount = 1;
     [Header("Ground Collision Setting")]
     [SerializeField] private Vector3 gcOffset = Vector3.zero;
     [SerializeField] private float gcRadius = 0.5f;
     [SerializeField] private LayerMask gcMask = 0;
+    [Header("Slope Collision Setting")]
+    [SerializeField] private float slopeSpeed = 10f;
+    [SerializeField] private float slopeThreshold = 0.98f;
+    [SerializeField] private Vector3 slopeOffset = Vector3.zero;
+    [SerializeField] private float slopeDist = 0.5f;
+    [SerializeField] private LayerMask slopeMask = 0;
     [Header("Wall Run Setting")]
     [SerializeField] private Vector3 wcOffset = Vector3.zero;
     [SerializeField] private float wcDist = 1f;
@@ -38,6 +44,8 @@ public class PlayerController : MonoBehaviour
     //Dash
     private int currentDashCount;
 
+    private State state;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -47,6 +55,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Movement.Walk.canceled += Halt;
         playerControls.Movement.Jump.performed += Jump;
         playerControls.Movement.Dash.performed += Dash;
+        playerControls.Movement.WallRun.performed += WallRun;
+        playerControls.Movement.WallRun.canceled += StopWallRun;
         playerControls.Enable();
     }
 
@@ -54,6 +64,22 @@ public class PlayerController : MonoBehaviour
     {
         RefreshJump();
         RefreshDash();
+        CheckSlope();
+        HandleMove();
+    }
+
+    private void Move(InputAction.CallbackContext context)
+    {
+        if (state != State.Normal)
+            return;
+
+        moveAxis = context.ReadValue<Vector2>();
+        //Debug.Log($"Direction: {moveAxis}");
+        DirectionDamping();
+    }
+
+    private void HandleMove()
+    {
         if (moveAxis.sqrMagnitude > 0.1f)
         {
             moveResult.x = moveAxis.x;
@@ -62,7 +88,7 @@ public class PlayerController : MonoBehaviour
             moveResult.x *= currentSpeed;
             moveResult.z *= currentSpeed;
         }
-        else
+        else if(state == State.Normal)
         {
             moveResult.x = -Mathf.Lerp(0f, rb.velocity.x, Time.deltaTime / timeToStop);
             moveResult.z = -Mathf.Lerp(0f, rb.velocity.z, Time.deltaTime / timeToStop);
@@ -75,21 +101,20 @@ public class PlayerController : MonoBehaviour
         //Debug.Log($"Direction: {moveAxis} Result: {moveResult}");
     }
 
-    private void Move(InputAction.CallbackContext context)
-    {
-        moveAxis = context.ReadValue<Vector2>();
-        //Debug.Log($"Direction: {moveAxis}");
-        DirectionDamping();
-    }
-
     private void Halt(InputAction.CallbackContext context)
     {
+        if (state != State.Normal)
+            return;
+
         moveAxis = Vector2.zero;
         currentSpeed = 0f;
     }
 
     private void Jump(InputAction.CallbackContext context)
     {
+        if (state != State.Normal)
+            return;
+
         if (currentJumpCount > 0)
         {
             rb.AddForce(MathLibrary.CalculateJump(transform.up, rb.velocity), ForceMode.Impulse);
@@ -141,8 +166,8 @@ public class PlayerController : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext context)
     {
-        Debug.Log("Dashed");
-        if (IsGrounded() || currentDashCount == 0)
+        //Debug.Log("Dashed");
+        if (state != State.Normal || IsGrounded() || currentDashCount == 0)
             return;
 
         currentDashCount--;
@@ -151,22 +176,20 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DashState()
     {
+        state = State.Dash;
         rb.velocity = Vector3.zero;
-        playerControls.Movement.Walk.Disable();
-        playerControls.Movement.Jump.Disable();
         Vector3 prevPos = transform.position;
         float progress = 0f;
-        float tempDuration = dashDuration;
-        while(tempDuration > 0f)
+        float timeToEnd = dashDistance / (PlayerManager.GetMaxSpeed() * dashMultiplier);
+        //Debug.Log($"Time: {timeToEnd} Distance: {dashDistance} Speed: {PlayerManager.GetMaxSpeed() * dashMultiplier}");
+        while (progress < 1f)
         {
-            progress += Time.deltaTime / dashDuration;
+            progress += Time.deltaTime / timeToEnd;
             rb.MovePosition(Vector3.Lerp(prevPos, prevPos + (transform.forward * dashDistance), progress));
-            tempDuration -= Time.deltaTime;
             yield return null;
         }
         rb.velocity = Vector3.zero;
-        playerControls.Movement.Walk.Enable();
-        playerControls.Movement.Jump.Enable();
+        state = State.Normal;
     }
 
     private void RefreshDash()
@@ -178,14 +201,60 @@ public class PlayerController : MonoBehaviour
     public void ModifyJumpCount(int amount) => jumpCount += amount;
     public void ModifyDashCount(int amount) => dashCount += amount;
 
+    private void WallRun(InputAction.CallbackContext context)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + wcOffset, -transform.right, out hit, wcDist, wcMask))// && Vector3.Cross(-transform.right, hit.normal) == Vector3.zero)
+        {
+            Debug.Log($"Wall Result: {Vector3.Cross(-transform.right, hit.normal)}");
+            //Physics.Raycast(transform.position + wcOffset, transform.right, out hit, wcDist, wcMask)
+            state = State.WallRun;
+        }
+    }
+
+    private void StopWallRun(InputAction.CallbackContext context)
+    {
+        state = State.Normal;
+    }
+
     private bool IsGrounded()
     {
         return Physics.CheckSphere(transform.position + gcOffset, gcRadius, gcMask);
     }
 
+    private void CheckSlope()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + slopeOffset, Vector3.down, out hit, slopeDist, slopeMask))
+        {
+            if (Vector3.Dot(Vector3.up, hit.normal) < slopeThreshold)
+            {
+                Debug.Log($"Slope Result: {Vector3.Dot(Vector3.up, hit.normal)} Force Direction: {Vector3.Cross(Vector3.right, hit.normal)}");
+                moveResult += Vector3.Cross(Vector3.right, hit.normal) * slopeSpeed * Time.deltaTime;
+                state = State.Slope;
+            }
+        }
+        else if(state == State.Slope)
+        {
+            state = State.Normal;
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(transform.position + gcOffset, gcRadius);
+        Gizmos.DrawWireSphere(transform.position + gcOffset, gcRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position + slopeOffset, transform.position + slopeOffset + (Vector3.down * slopeDist));
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position + wcOffset, transform.position + wcOffset + (-transform.right * wcDist));
+    }
+
+    private enum State
+    {
+        Normal,
+        Dash,
+        WallRun,
+        Slope
     }
 }
