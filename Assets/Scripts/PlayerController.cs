@@ -80,8 +80,8 @@ public class PlayerController : MonoBehaviour
     {
         if (state == State.Normal && moveAxis.sqrMagnitude > 0.1f)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed() * 0.7f), Time.deltaTime / timeToMaxSpeed);
-            inputResult = (transform.right * moveAxis.x + transform.forward * moveAxis.y) * currentSpeed;
+            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed()), Time.deltaTime / timeToMaxSpeed);
+            inputResult += (transform.right * moveAxis.x + transform.forward * moveAxis.y) * currentSpeed * Time.deltaTime;
         }
         else if(state == State.Normal)
         {
@@ -90,8 +90,8 @@ public class PlayerController : MonoBehaviour
         }
         else if(state == State.Slope)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed() * 0.7f), Time.deltaTime / timeToMaxSpeed);
-            inputResult = (transform.right * moveAxis.x) * currentSpeed;
+            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed()), Time.deltaTime / timeToMaxSpeed);
+            inputResult += (transform.right * moveAxis.x) * currentSpeed * Time.deltaTime;
         }
 
         ClampVelocity();
@@ -206,10 +206,12 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position + wcOffset, -transform.right, out hit, wcDist, wcMask))// && Vector3.Cross(-transform.right, hit.normal) == Vector3.zero)
         {
-            Debug.Log($"Wall Result: {Vector3.Cross(-transform.right, hit.normal)}");
+            Debug.Log($"Left Wall Result: {Vector3.Dot(Vector3.up, hit.normal)}");
             //Physics.Raycast(transform.position + wcOffset, transform.right, out hit, wcDist, wcMask)
             state = State.WallRun;
         }
+        if (Physics.Raycast(transform.position + wcOffset, transform.right, out hit, wcDist, wcMask))
+            Debug.Log($"Right Wall Result: {Vector3.Dot(Vector3.up, hit.normal)}");
     }
 
     private void StopWallRun(InputAction.CallbackContext context)
