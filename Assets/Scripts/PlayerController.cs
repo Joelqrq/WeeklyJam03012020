@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private PlayerControls playerControls;
 
-    private Vector3 moveResult;
+    private Vector3 inputResult;
     private Vector2 moveAxis;
     private float currentSpeed;
 
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private int currentDashCount;
 
     private State state;
+    private Vector3 otherResult;
 
     // Start is called before the first frame update
     private void Start()
@@ -70,9 +71,6 @@ public class PlayerController : MonoBehaviour
 
     private void Move(InputAction.CallbackContext context)
     {
-        if (state != State.Normal)
-            return;
-
         moveAxis = context.ReadValue<Vector2>();
         //Debug.Log($"Direction: {moveAxis}");
         DirectionDamping();
@@ -80,34 +78,36 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMove()
     {
-        if (moveAxis.sqrMagnitude > 0.1f)
+        if (state == State.Normal && moveAxis.sqrMagnitude > 0.1f)
         {
-            moveResult.x = moveAxis.x;
-            moveResult.z = moveAxis.y;
             currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed() * 0.7f), Time.deltaTime / timeToMaxSpeed);
-            moveResult.x *= currentSpeed;
-            moveResult.z *= currentSpeed;
+            inputResult = (transform.right * moveAxis.x + transform.forward * moveAxis.y) * currentSpeed;
         }
         else if(state == State.Normal)
         {
-            moveResult.x = -Mathf.Lerp(0f, rb.velocity.x, Time.deltaTime / timeToStop);
-            moveResult.z = -Mathf.Lerp(0f, rb.velocity.z, Time.deltaTime / timeToStop);
+            inputResult.x = -Mathf.Lerp(0f, rb.velocity.x, Time.deltaTime / timeToStop);
+            inputResult.z = -Mathf.Lerp(0f, rb.velocity.z, Time.deltaTime / timeToStop);
+        }
+        else if(state == State.Slope)
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed() * 0.7f), Time.deltaTime / timeToMaxSpeed);
+            inputResult = (transform.right * moveAxis.x) * currentSpeed;
         }
 
         ClampVelocity();
-        moveResult.y = rb.velocity.y;
+        inputResult.y = rb.velocity.y;
         Gravity();
-        rb.velocity = moveResult;
-        //Debug.Log($"Direction: {moveAxis} Result: {moveResult}");
+        rb.velocity = inputResult + otherResult;
+        //Debug.Log($"Direction: {moveAxis} Result: {inputResult}");
     }
 
     private void Halt(InputAction.CallbackContext context)
     {
-        if (state != State.Normal)
-            return;
-
-        moveAxis = Vector2.zero;
-        currentSpeed = 0f;
+        if (state == State.Normal || state == State.Slope)
+        {
+            moveAxis = Vector2.zero;
+            currentSpeed = 0f;
+        }
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -133,18 +133,18 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
             return;
 
-        moveResult.y += gravity * fallMultiplier * Time.deltaTime;
+        inputResult.y += gravity * fallMultiplier * Time.deltaTime;
     }
 
     private void ClampVelocity()
     {
         if (Mathf.Abs(rb.velocity.x) > PlayerManager.GetMaxSpeed())
         {
-            moveResult.x = moveAxis.x * PlayerManager.GetMaxSpeed();
+            inputResult.x = moveAxis.x * PlayerManager.GetMaxSpeed();
         }
         if (Mathf.Abs(rb.velocity.z) > PlayerManager.GetMaxSpeed())
         {
-            moveResult.z = moveAxis.y * PlayerManager.GetMaxSpeed();
+            inputResult.z = moveAxis.y * PlayerManager.GetMaxSpeed();
         }
     }
 
@@ -152,15 +152,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Mathf.Sign(rb.velocity.x) != moveAxis.x)
         {
-            moveResult.x = rb.velocity.x * directionDamping;
-            moveResult.y = rb.velocity.y;
-            rb.velocity = moveResult;
+            inputResult.x = rb.velocity.x * directionDamping;
+            inputResult.y = rb.velocity.y;
+            rb.velocity = inputResult;
         }
         if (Mathf.Sign(rb.velocity.z) != moveAxis.y)
         {
-            moveResult.z = rb.velocity.z * directionDamping;
-            moveResult.y = rb.velocity.y;
-            rb.velocity = moveResult;
+            inputResult.z = rb.velocity.z * directionDamping;
+            inputResult.y = rb.velocity.y;
+            rb.velocity = inputResult;
         }
     }
 
@@ -230,13 +230,14 @@ public class PlayerController : MonoBehaviour
             if (Vector3.Dot(Vector3.up, hit.normal) < slopeThreshold)
             {
                 Debug.Log($"Slope Result: {Vector3.Dot(Vector3.up, hit.normal)} Force Direction: {Vector3.Cross(Vector3.right, hit.normal)}");
-                moveResult += Vector3.Cross(Vector3.right, hit.normal) * slopeSpeed * Time.deltaTime;
+                otherResult += Vector3.Cross(Vector3.right, hit.normal) * slopeSpeed * Time.deltaTime;
                 state = State.Slope;
             }
         }
         else if(state == State.Slope)
         {
             state = State.Normal;
+            otherResult = Vector3.zero;
         }
     }
 
