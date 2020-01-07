@@ -7,7 +7,9 @@ using UnityEngine;
 public class BasicCamera : MonoBehaviour
 {
     [SerializeField]
-    private Camera ControlledCamera; //Camera affected by this script. 
+    private Transform controlledBody; //Transform affected by this script. 
+    [SerializeField]
+    private Vector3 cbOffset;
 
     [SerializeField]
     private Quaternion InitialRotation; //Default rotation
@@ -29,7 +31,6 @@ public class BasicCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ControlledCamera = GetComponent<Camera>(); 
         playerControls = new PlayerControls();
         playerControls.Camera.Camera_Movement.started += Move;
         playerControls.Camera.Camera_Movement.Enable();
@@ -42,7 +43,7 @@ public class BasicCamera : MonoBehaviour
     void Update()
     {
         //Debug.Log(transform.rotation.eulerAngles); 
-        if(Timer <= TimeToReachDestination && DesiredRotation != InitialRotation)
+        if (Timer <= TimeToReachDestination && DesiredRotation != InitialRotation)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRotation, Timer / TimeToReachDestination); 
             Timer += Time.deltaTime; 
@@ -61,6 +62,8 @@ public class BasicCamera : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRotation, Timer / (TimeToReachDestination * 3.0f));
             Timer += Time.deltaTime;
         }
+        controlledBody.localEulerAngles = Vector3.up * transform.localEulerAngles.y;
+        transform.position = controlledBody.position + cbOffset;
     }
 
     /*Calculates the rotation where should the camera look at*/

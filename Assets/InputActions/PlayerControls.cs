@@ -161,7 +161,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""id"": ""6efc22da-1954-4ee8-8838-8c72c269f5ff"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""InvertVector2"",
                     ""groups"": ""Movement"",
                     ""action"": ""Camera_Movement"",
                     ""isComposite"": false,
