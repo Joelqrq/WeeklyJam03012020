@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float timeToMaxSpeed = 0.2f;
-    [SerializeField] private float timeToStop = 0.2f;
     [SerializeField] private float fallMultiplier = 1.2f;
     [SerializeField, Range(0f, 1f)] private float directionDamping = 0.2f;
     [Header("Dash Setting")]
@@ -36,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 inputResult;
     private Vector2 moveAxis;
+    private float speedProgress;
     private float currentSpeed;
 
     //Jump
@@ -75,35 +75,50 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMove()
     {
-        if (state == State.Normal && moveAxis.sqrMagnitude > 0.1f)
+        switch (state)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed()), Time.deltaTime / timeToMaxSpeed);
-            inputResult += (transform.right * moveAxis.x + transform.forward * moveAxis.y) * currentSpeed * Time.deltaTime;
-        }
-        else if (state == State.Normal)
-        {
-            inputResult.x = -Mathf.Lerp(0f, rb.velocity.x, Time.deltaTime / timeToStop);
-            inputResult.z = -Mathf.Lerp(0f, rb.velocity.z, Time.deltaTime / timeToStop);
-        }
-        else if (state == State.Slope)
-        {
-            currentSpeed = Mathf.Lerp(currentSpeed, (PlayerManager.GetMaxSpeed()), Time.deltaTime / timeToMaxSpeed);
-            inputResult += (transform.right * moveAxis.x) * currentSpeed * Time.deltaTime;
-        }
-        HandleWallRun();
+            case State.Normal:
+                CalculateStoppingSpeed();
+                if (moveAxis.sqrMagnitude > 0f)
+                {
+                    speedProgress += Time.deltaTime / timeToMaxSpeed;
+                    currentSpeed = Mathf.Lerp(0f, (PlayerManager.GetMaxSpeed()), speedProgress);
+                    inputResult = ((transform.right * moveAxis.x) + (transform.forward * moveAxis.y)) * currentSpeed;
+                }
+                break;
 
-        gravityResult = rb.velocity.y;
+            case State.Dash:
+
+                break;
+
+            case State.Slope:
+                if (moveAxis.sqrMagnitude > 0f)
+                {
+                    speedProgress += Time.deltaTime / timeToMaxSpeed;
+                    currentSpeed = Mathf.Lerp(0f, (PlayerManager.GetMaxSpeed()), speedProgress);
+                    inputResult = (transform.right * moveAxis.x) * currentSpeed;
+                }
+                break;
+
+            case State.WallRun:
+                HandleWallRun();
+                break;
+
+            default:
+                break;
+        }
+
         Gravity();
-        rb.velocity = inputResult + (Vector3.up * gravityResult) + otherResult;
-        ClampVelocity();
+        ClampInputVelocity();
+        rb.AddForce(inputResult + (Vector3.up * gravityResult) + otherResult);
+        //Debug.Log($"Input Result: {inputResult} Gravity Result: {gravityResult} Other Result: {otherResult}");
         gravityResult = 0f;
-        //Debug.Log($"Direction: {moveAxis} Result: {inputResult}");
+        otherResult = Vector3.zero;
     }
 
     private void Move(InputAction.CallbackContext context)
     {
         moveAxis = context.ReadValue<Vector2>();
-        DirectionDamping();
         //Debug.Log($"Direction: {moveAxis}");
     }
 
@@ -114,18 +129,19 @@ public class PlayerController : MonoBehaviour
             moveAxis = Vector2.zero;
             inputResult = Vector3.zero;
             currentSpeed = 0f;
+            speedProgress = 0f;
         }
     }
 
     private void Jump(InputAction.CallbackContext context)
     {
-        if (state != State.Normal)
-            return;
-
-        if (currentJumpCount > 0)
+        if (state == State.Normal || state == State.Slope)
         {
-            rb.AddForce(MathLibrary.CalculateJump(transform.up, rb.velocity), ForceMode.Impulse);
-            currentJumpCount--;
+            if (currentJumpCount > 0)
+            {
+                rb.AddForce(MathLibrary.CalculateJump(transform.up, rb.velocity), ForceMode.Impulse);
+                currentJumpCount--;
+            }
         }
     }
 
@@ -140,47 +156,41 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
             return;
 
-        gravityResult += gravity * fallMultiplier * Time.deltaTime;
+        gravityResult += gravity * fallMultiplier;
     }
 
-    private void ClampVelocity()
+    private void ClampInputVelocity()
     {
-        Vector3 clampVel = rb.velocity;
-        if (Mathf.Abs(clampVel.x) > PlayerManager.GetMaxSpeed())
+        if (Mathf.Abs(rb.velocity.x) > PlayerManager.GetMaxSpeed())
         {
-            clampVel.x = Mathf.Sign(rb.velocity.x) * PlayerManager.GetMaxSpeed();
-            rb.velocity = clampVel;
+            //Debug.Log($"Horizontal clamped diff: {rb.velocity.x}");
+            inputResult = transform.right * 0f;
         }
-        if(Mathf.Abs(clampVel.y) > PlayerManager.GetMaxSpeed())
+        if (Mathf.Abs(rb.velocity.z) > PlayerManager.GetMaxSpeed())
         {
-            clampVel.y = Mathf.Sign(rb.velocity.y) * PlayerManager.GetMaxSpeed();
-            rb.velocity = clampVel;
-        }
-        if (Mathf.Abs(clampVel.z) > PlayerManager.GetMaxSpeed())
-        {
-            clampVel.z = Mathf.Sign(rb.velocity.z) * PlayerManager.GetMaxSpeed();
-            rb.velocity = clampVel;
+            //Debug.Log($"Forward clamped diff: {rb.velocity.z}");
+            inputResult = transform.forward * 0f;
         }
     }
 
-    private void DirectionDamping()
+    private void CalculateStoppingSpeed()
     {
-        if (moveAxis.sqrMagnitude < 0.1f)
-            return;
-
-        Vector3 dampVel = rb.velocity;
-        Debug.Log($"Sign X: {Mathf.Sign(dampVel.x)} Sign Z: {Mathf.Sign(dampVel.z)} MoveAxis: {moveAxis}");
-        if (Mathf.Sign(dampVel.x) != moveAxis.x)
+        if (IsGrounded())
         {
-            dampVel.x = rb.velocity.x * directionDamping;
-            rb.velocity = dampVel;
-            Debug.Log($"Horizontal damping: {dampVel}");
-        }
-        if (Mathf.Sign(dampVel.z) != moveAxis.y)
-        {
-            dampVel.z = rb.velocity.z * directionDamping;
-            rb.velocity = dampVel;
-            Debug.Log($"Forward damping: {dampVel}");
+            if (moveAxis.x > -0.1f && moveAxis.x < 0.1f)
+            {
+                Vector3 stopVector = new Vector3();
+                float rightSpeed = Vector3.Dot(rb.velocity, transform.right);
+                stopVector += rightSpeed * -transform.right * rb.velocity.magnitude;
+                rb.AddForce(stopVector);
+            }
+            if (moveAxis.y > -0.1f && moveAxis.y < 0.1f)
+            {
+                Vector3 stopVector = new Vector3();
+                float fwdSpeed = Vector3.Dot(rb.velocity, transform.forward);
+                stopVector += fwdSpeed * -transform.forward * rb.velocity.magnitude;
+                rb.AddForce(stopVector);
+            }
         }
     }
 
@@ -241,16 +251,13 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
             state = State.WallRun;
-            Debug.Log("Wall running");
+            Debug.Log(Vector3.Angle(hit.normal, transform.forward));
         }
     }
 
     private void HandleWallRun()
     {
-        if (state != State.WallRun)
-            return;
-
-        otherResult += transform.forward * PlayerManager.GetMaxSpeed() * wrMultiplier * Time.deltaTime;
+        otherResult += transform.forward * PlayerManager.GetMaxSpeed() * wrMultiplier;
     }
 
     private void StopWallRun(InputAction.CallbackContext context)
@@ -270,8 +277,15 @@ public class PlayerController : MonoBehaviour
         {
             if (Vector3.Dot(Vector3.up, hit.normal) < slopeThreshold)
             {
-                Debug.Log($"Slope Result: {Vector3.Dot(Vector3.up, hit.normal)} Force Direction: {Vector3.Cross(Vector3.right, hit.normal)}");
-                otherResult += Vector3.Cross(transform.right, hit.normal) * slopeSpeed * Time.deltaTime;
+                //Debug.Log($"Slope Result: {Vector3.Dot(Vector3.up, hit.normal)} Force Direction: {Vector3.Cross(Vector3.right, hit.normal)}");
+                //Debug.Log($"Slope direction: {Vector3.Dot(Vector3.ProjectOnPlane(transform.forward, hit.normal), hit.normal)}");
+                Vector3 direction = transform.forward;
+                if (Vector3.Dot(Vector3.ProjectOnPlane(transform.forward, hit.normal), hit.normal) < 0f)
+                {
+                    direction = -transform.forward;
+                }
+                otherResult += Vector3.ProjectOnPlane(direction, hit.normal) * slopeSpeed;
+                otherResult.y = 0f;
                 state = State.Slope;
             }
             else if (state == State.Slope)

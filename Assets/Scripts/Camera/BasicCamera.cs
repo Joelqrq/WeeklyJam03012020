@@ -7,10 +7,10 @@ using UnityEngine;
 public class BasicCamera : MonoBehaviour
 {
     [SerializeField]
-    private Transform controlledBody; //Transform affected by this script. 
+    private Transform controlledBody = null; //Transform affected by this script. 
     [SerializeField]
-    private Vector3 cbOffset;
-
+    private Vector3 cbOffset = Vector3.zero;
+    
     [SerializeField]
     private Quaternion InitialRotation; //Default rotation
     [SerializeField]
@@ -36,7 +36,7 @@ public class BasicCamera : MonoBehaviour
         playerControls.Camera.Camera_Movement.Enable();
 
         InitialRotation = transform.rotation;
-
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -62,6 +62,7 @@ public class BasicCamera : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRotation, Timer / (TimeToReachDestination * 3.0f));
             Timer += Time.deltaTime;
         }
+
         controlledBody.localEulerAngles = Vector3.up * transform.localEulerAngles.y;
         transform.position = controlledBody.position + cbOffset;
     }
@@ -77,7 +78,7 @@ public class BasicCamera : MonoBehaviour
 
         DesiredRotation = Quaternion.Euler(CurrentRotation.x, CurrentRotation.y, 0);
 
-        ResetTimer = 0.0f; Timer = TimeToReachDestination * 0.1f; ; 
+        ResetTimer = 0.0f; Timer = TimeToReachDestination * 0.1f; ;
     }
     /*Clamps rotation to a maxium degree*/
     private Vector3 ClampRotation(Vector3 Rotation)
