@@ -13,9 +13,9 @@ public static class PlayerManager
     static float DEFAULT_MIN_JUMP_FORCE = 10.0f;
 
     /*Current Values*/
-    static float MAX_PLAYER_SPEED = 100.0f;
+    static float MAX_PLAYER_SPEED = 20.0f;
     static float MIN_PLAYER_SPEED = 0.0f;
-    static float MAX_JUMP_FORCE = 50.0f;
+    static float MAX_JUMP_FORCE = 20.0f;
     static float MIN_JUMP_FORCE = 10.0f;
 
     //Getters
