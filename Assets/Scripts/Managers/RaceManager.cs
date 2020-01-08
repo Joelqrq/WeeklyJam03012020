@@ -10,7 +10,9 @@ public class RaceManager : MonoBehaviour
     [SerializeField]
     private Transform EndPoint;
     [SerializeField]
-    private GameObject Player; 
+    private GameObject Player;
+
+    private Transform CheckPoint; 
 
 
     bool RaceFinished = false;
@@ -35,21 +37,41 @@ public class RaceManager : MonoBehaviour
             players = GameObject.FindGameObjectsWithTag("Player");
             Player = (players.Length > 0) ? players[0] : null; 
         }
+
+
     }
 
+    /*Player starts the race, with time 0 and at starting point*/
     public void StartRace()
     {
-        RaceFinished = false; 
-        if (Player)
-            Player.transform.SetPositionAndRotation(StartingPoint.position, StartingPoint.rotation);  
+        RaceFinished = false;
+        CheckPoint = StartingPoint;
+        RespawnPlayer(); 
+        Debug.Log("Player starts race"); 
     }
+    /*Player restart the race from the last checkpoint*/
+    public void RestartRace()
+    {
+        RaceFinished = false;
+        RespawnPlayer(); 
 
+        Debug.Log("Player restart the race"); 
+    }
+    /*Notifies the player has reached the end*/
     public void PlayerReachedEnd()
     {
-        RaceFinished = true; 
+        RaceFinished = true;
+        Debug.Log("Player finished the race"); 
     }
-
+    /*Check if race has finished*/
     public bool IsRaceFinished() { return RaceFinished;  }
+
+    /*Teleport the player to the last checkpoint */
+    private void RespawnPlayer()
+    {
+        if (Player)
+            Player.transform.SetPositionAndRotation(CheckPoint.position, CheckPoint.rotation);
+    }
 
 
 }

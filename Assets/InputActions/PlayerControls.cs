@@ -41,6 +41,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Wall Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""524bdbf0-e73f-44dc-834c-a331267b70d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ced284b4-a54f-4c1b-be2d-fcf791141a41"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": ""Movement"",
+                    ""action"": ""Wall Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -142,7 +161,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""id"": ""6efc22da-1954-4ee8-8838-8c72c269f5ff"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""InvertVector2"",
                     ""groups"": ""Movement"",
                     ""action"": ""Camera_Movement"",
                     ""isComposite"": false,
@@ -164,6 +183,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
+        m_Movement_WallRun = m_Movement.FindAction("Wall Run", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Camera_Movement = m_Camera.FindAction("Camera_Movement", throwIfNotFound: true);
@@ -219,6 +239,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_Walk;
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Dash;
+    private readonly InputAction m_Movement_WallRun;
     public struct MovementActions
     {
         private @PlayerControls m_Wrapper;
@@ -226,6 +247,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Walk => m_Wrapper.m_Movement_Walk;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
+        public InputAction @WallRun => m_Wrapper.m_Movement_WallRun;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -244,6 +266,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Dash.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnDash;
+                @WallRun.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWallRun;
+                @WallRun.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWallRun;
+                @WallRun.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWallRun;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -257,6 +282,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @WallRun.started += instance.OnWallRun;
+                @WallRun.performed += instance.OnWallRun;
+                @WallRun.canceled += instance.OnWallRun;
             }
         }
     }
@@ -308,6 +336,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnWallRun(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {
