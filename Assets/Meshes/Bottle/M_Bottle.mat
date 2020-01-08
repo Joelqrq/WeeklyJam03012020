@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7484943826503732954
+--- !u!114 &-8850460346796427417
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Roundy
-  m_Shader: {fileID: -6465566751694194690, guid: dc52278e6478b584fab1bbf9a5eaaf69,
+  m_Name: M_Bottle
+  m_Shader: {fileID: -6465566751694194690, guid: 8a033ed0696929a4fbfb63a59d6ff5e2,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -33,12 +33,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_1DAA3E9A:
+        m_Texture: {fileID: 2800000, guid: 8cb8c80042f563747a21fc7805c2081f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_20EF5AE1:
-        m_Texture: {fileID: 2800000, guid: 01f7b64aa75e05f4b9e4bc7938da4b69, type: 3}
+        m_Texture: {fileID: 2800000, guid: 90011c65f7639a548899ab1da2598102, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_4BB6018A:
-        m_Texture: {fileID: 2800000, guid: 61fbf45ea4c68d64ea5c65df3bc24b6f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 125677d3c6be4804d98285ef96358891, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_84FD6E3C:
@@ -46,11 +50,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_8B9BF059:
-        m_Texture: {fileID: 2800000, guid: 1c1731070c1e5e04896fb7e8b78bb063, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1e2ce2eedc6bee84991abb61cb0976cf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_A13375F8:
-        m_Texture: {fileID: 2800000, guid: 0e333cb478a08b54fb14151d74f60a75, type: 3}
+        m_Texture: {fileID: 2800000, guid: e85e4ea64a844ab4c8114161ae5c9783, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -81,7 +85,29 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_3F321A67_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_440D057C_Out_0:
+        m_Texture: {fileID: 2800000, guid: 72a3e00b65395264ba44f6b65cc2b13c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_6FB8D121_Out_0:
+        m_Texture: {fileID: 2800000, guid: 8fc66db5463c8674cb24e6e9d38354b3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_772F5663_Out_0:
+        m_Texture: {fileID: 2800000, guid: 7dd5a160f02f95d45b37545bc9fcb656, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_9EE47B7A_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_54741963: 0
+    - Vector1_DDCCE8D1: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,7 +130,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_32737B0E: {r: 0.093716644, g: 0.39642337, b: 0.509434, a: 0}
+    - Color_32737B0E: {r: 0.08627451, g: 0.09803922, b: 0.03529412, a: 0}
     - Color_799DE6B8: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
