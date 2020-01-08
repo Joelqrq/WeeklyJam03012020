@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3140663944784282481}
   - component: {fileID: 7217804751630432316}
   m_Layer: 0
-  m_Name: P_Newspaper 1
+  m_Name: P_NewspaperTorn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8305969421205953560}
   m_LocalRotation: {x: -0.7070434, y: -0.009466713, z: 0.009466419, w: 0.7070434}
-  m_LocalPosition: {x: -0.0008, y: 0.0131, z: 0}
-  m_LocalScale: {x: 27.841064, y: 18.062847, z: 17.874659}
+  m_LocalPosition: {x: -0.0008, y: 0.0131, z: -0.0033305}
+  m_LocalScale: {x: 43.498127, y: 31.416069, z: 17.874659}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
