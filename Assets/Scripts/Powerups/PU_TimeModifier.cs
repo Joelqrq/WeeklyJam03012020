@@ -9,19 +9,26 @@ public class PU_TimeModifier : Powerup
     {
         player.PlayerControls.Movement.SlowMotion.performed += SlowMotion;
         player.PlayerControls.Movement.CancelSlowMotion.performed += CancelSlowMotion;
+        player.timeEvent = RemoveAction;
     }
 
     private void SlowMotion(InputAction.CallbackContext context)
     {
         Time.timeScale = 1 * multiplier; 
         Time.fixedDeltaTime = 0.02f * multiplier;
-        Debug.Log("slowmo");
+        //Debug.Log("slowmo");
     }
 
     private void CancelSlowMotion(InputAction.CallbackContext context)
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
-        Debug.Log("remove s");
+        //Debug.Log("remove s");
+    }
+
+    private void RemoveAction(PlayerController player)
+    {
+        player.PlayerControls.Movement.SlowMotion.performed -= SlowMotion;
+        player.PlayerControls.Movement.CancelSlowMotion.performed -= CancelSlowMotion;
     }
 }

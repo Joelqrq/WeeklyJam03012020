@@ -63,6 +63,8 @@ public class BasicCamera : MonoBehaviour
             Timer += Time.deltaTime;
         }
 
+        if (controlledBody == null)
+            return;
         controlledBody.localEulerAngles = Vector3.up * transform.localEulerAngles.y;
         transform.position = controlledBody.position + cbOffset;
     }
@@ -102,5 +104,10 @@ public class BasicCamera : MonoBehaviour
         result.z = 0; 
         return result; 
 
+    }
+
+    private void OnDestroy()
+    {
+        playerControls.Camera.Camera_Movement.started -= Move;
     }
 }

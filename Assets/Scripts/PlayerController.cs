@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,6 +30,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 wrOffset = Vector3.zero;
     [SerializeField] private float wrDist = 1f;
     [SerializeField] private LayerMask wrMask = 0;
+
+    public Action<PlayerController> timeEvent;
 
     private Rigidbody rb;
     private PlayerControls playerControls;
@@ -326,6 +329,16 @@ public class PlayerController : MonoBehaviour
             state = State.Normal;
             otherResult = Vector3.zero;
         }
+    }
+
+    private void OnDestroy()
+    {
+        playerControls.Movement.Walk.performed += Move;
+        playerControls.Movement.Walk.canceled += Halt;
+        playerControls.Movement.Jump.performed += Jump;
+        playerControls.Movement.Dash.performed += Dash;
+        playerControls.Movement.WallRun.performed += WallRun;
+        timeEvent?.Invoke(this);
     }
 
     private void OnDrawGizmos()
