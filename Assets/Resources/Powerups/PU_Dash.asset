@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb575811d5f18f4cac2cec4da78e23b, type: 3}
   m_Name: PU_Dash
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  image: {fileID: 0}
-  increaseCount: 1
+  name: Dash
+  description: Increase dash distance by 1.5x
+  image: {fileID: 21300000, guid: 21b7d2311d4a1204db17a9959fc29f66, type: 3}
+  increaseCount: 0
   multiplier: 1.5

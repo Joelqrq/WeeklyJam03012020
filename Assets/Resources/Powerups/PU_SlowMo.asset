@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PU_SlowMo
   m_EditorClassIdentifier: 
   name: Slow-mo
-  description: 
-  image: {fileID: 0}
+  description: Allow you to apply slow-motion effects. (Unlimited)
+  image: {fileID: 21300000, guid: 21b7d2311d4a1204db17a9959fc29f66, type: 3}
   multiplier: 0.5

@@ -36,8 +36,6 @@ public class RaceManager : MonoBehaviour
             players = GameObject.FindGameObjectsWithTag("Player");
             Player = (players.Length > 0) ? players[0] : null; 
         }
-
-
     }
 
     /*Player starts the race, with time 0 and at starting point*/
@@ -61,8 +59,10 @@ public class RaceManager : MonoBehaviour
     {
         RaceFinished = true;
         gameManager.StopGame();
+        StartCoroutine(gameManager.DisplayScore());
         Debug.Log("Player finished the race"); 
     }
+
     /*Check if race has finished*/
     public bool IsRaceFinished() { return RaceFinished;  }
 
@@ -72,6 +72,4 @@ public class RaceManager : MonoBehaviour
         if (Player)
             Player.transform.SetPositionAndRotation(CheckPoint.position, CheckPoint.rotation);
     }
-
-
 }

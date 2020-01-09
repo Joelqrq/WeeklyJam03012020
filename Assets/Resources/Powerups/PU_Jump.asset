@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 060516a791fb07241b30cc42181d0783, type: 3}
   m_Name: PU_Jump
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  image: {fileID: 0}
-  increaseCount: 1
+  name: Jump
+  description: Increase jump height by 1.5x
+  image: {fileID: 21300000, guid: 21b7d2311d4a1204db17a9959fc29f66, type: 3}
+  increaseCount: 0
   multiplier: 1.5

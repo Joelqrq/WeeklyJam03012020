@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2bcc3ac64e71e4c821a97f6ef9995e, type: 3}
   m_Name: Powerup List
   m_EditorClassIdentifier: 
-  powerups: []
+  powerups:
+  - {fileID: 11400000, guid: 1d4a25441477282418418f8f6626a170, type: 2}
+  - {fileID: 11400000, guid: d750924f5076f3e46a41a091315aea7e, type: 2}
+  - {fileID: 11400000, guid: a421453e3fc680542858826c6c576f86, type: 2}
+  - {fileID: 11400000, guid: 1698239f30fe11b48bab078b8ee383d8, type: 2}
+  - {fileID: 11400000, guid: 5c9e4aedb7422e54caa288ceb8f8f921, type: 2}

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class RaceStartEnd : MonoBehaviour
 {
 
@@ -14,7 +13,7 @@ public class RaceStartEnd : MonoBehaviour
     {
         if(!rManager)
         {
-            rManager = GameObject.FindObjectOfType<RaceManager>();
+            rManager = FindObjectOfType<RaceManager>();
             if (!rManager)
                 Debug.LogError("Race manager not found"); 
         }
@@ -32,4 +31,8 @@ public class RaceStartEnd : MonoBehaviour
        
     }
 
+    private void Reset()
+    {
+        GetComponent<BoxCollider>().isTrigger = true;
+    }
 }

@@ -45,21 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c45ddac3363eba4e92c15b0be8eece3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMaxSpeed: 0.2
-  fallMultiplier: 1.2
-  directionDamping: 0.2
-  dashMultiplier: 5
-  dashDistance: 50
+  timeToMaxSpeed: 0
+  fallMultiplier: 4
+  directionDamping: 0.996
+  dashMultiplier: 2
+  dashDistance: 6
   dashCount: 1
   gcOffset: {x: 0, y: -0.5, z: 0}
-  gcRadius: 0.3
+  gcRadius: 0.2
   gcMask:
     serializedVersion: 2
     m_Bits: 512
   slopeSpeed: 20
-  slopeThreshold: 0.98
+  slopeThreshold: 0.99
   slopeOffset: {x: 0, y: -0.5, z: 0}
-  slopeDist: 0.5
+  slopeDist: 0.2
   slopeMask:
     serializedVersion: 2
     m_Bits: 512
@@ -93,9 +93,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7995701505287868720}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
+  m_Mass: 1.5
+  m_Drag: 2.5
+  m_AngularDrag: 2.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1

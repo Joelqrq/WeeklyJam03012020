@@ -44,6 +44,22 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "SlowMotion",
+                    "type": "Button",
+                    "id": "e6275030-32de-4356-834d-a22e1e3ad4d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CancelSlowMotion",
+                    "type": "Button",
+                    "id": "c86d0733-9467-41fd-b530-a2377c07b938",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -143,6 +159,28 @@
                     "processors": "",
                     "groups": "Movement",
                     "action": "CancelWallRun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68614795-7264-40bf-ae05-330786f2a951",
+                    "path": "<Mouse>/press",
+                    "interactions": "Hold(pressPoint=0.1)",
+                    "processors": "",
+                    "groups": "Movement",
+                    "action": "SlowMotion",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c1389cd-24be-4709-952f-a7e8c4198f9d",
+                    "path": "<Mouse>/press",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Movement",
+                    "action": "CancelSlowMotion",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

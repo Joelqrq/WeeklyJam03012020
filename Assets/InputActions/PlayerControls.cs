@@ -57,6 +57,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SlowMotion"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6275030-32de-4356-834d-a22e1e3ad4d3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CancelSlowMotion"",
+                    ""type"": ""Button"",
+                    ""id"": ""c86d0733-9467-41fd-b530-a2377c07b938"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +174,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""CancelWallRun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68614795-7264-40bf-ae05-330786f2a951"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
+                    ""processors"": """",
+                    ""groups"": ""Movement"",
+                    ""action"": ""SlowMotion"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c1389cd-24be-4709-952f-a7e8c4198f9d"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Movement"",
+                    ""action"": ""CancelSlowMotion"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -204,6 +242,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_WallRun = m_Movement.FindAction("Wall Run", throwIfNotFound: true);
         m_Movement_CancelWallRun = m_Movement.FindAction("CancelWallRun", throwIfNotFound: true);
+        m_Movement_SlowMotion = m_Movement.FindAction("SlowMotion", throwIfNotFound: true);
+        m_Movement_CancelSlowMotion = m_Movement.FindAction("CancelSlowMotion", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Camera_Movement = m_Camera.FindAction("Camera_Movement", throwIfNotFound: true);
@@ -261,6 +301,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_WallRun;
     private readonly InputAction m_Movement_CancelWallRun;
+    private readonly InputAction m_Movement_SlowMotion;
+    private readonly InputAction m_Movement_CancelSlowMotion;
     public struct MovementActions
     {
         private @PlayerControls m_Wrapper;
@@ -270,6 +312,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @WallRun => m_Wrapper.m_Movement_WallRun;
         public InputAction @CancelWallRun => m_Wrapper.m_Movement_CancelWallRun;
+        public InputAction @SlowMotion => m_Wrapper.m_Movement_SlowMotion;
+        public InputAction @CancelSlowMotion => m_Wrapper.m_Movement_CancelSlowMotion;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -294,6 +338,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @CancelWallRun.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelWallRun;
                 @CancelWallRun.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelWallRun;
                 @CancelWallRun.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelWallRun;
+                @SlowMotion.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnSlowMotion;
+                @SlowMotion.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnSlowMotion;
+                @SlowMotion.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnSlowMotion;
+                @CancelSlowMotion.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelSlowMotion;
+                @CancelSlowMotion.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelSlowMotion;
+                @CancelSlowMotion.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelSlowMotion;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -313,6 +363,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @CancelWallRun.started += instance.OnCancelWallRun;
                 @CancelWallRun.performed += instance.OnCancelWallRun;
                 @CancelWallRun.canceled += instance.OnCancelWallRun;
+                @SlowMotion.started += instance.OnSlowMotion;
+                @SlowMotion.performed += instance.OnSlowMotion;
+                @SlowMotion.canceled += instance.OnSlowMotion;
+                @CancelSlowMotion.started += instance.OnCancelSlowMotion;
+                @CancelSlowMotion.performed += instance.OnCancelSlowMotion;
+                @CancelSlowMotion.canceled += instance.OnCancelSlowMotion;
             }
         }
     }
@@ -366,6 +422,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnWallRun(InputAction.CallbackContext context);
         void OnCancelWallRun(InputAction.CallbackContext context);
+        void OnSlowMotion(InputAction.CallbackContext context);
+        void OnCancelSlowMotion(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

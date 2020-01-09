@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private PlayerControls playerControls;
+    public PlayerControls PlayerControls => playerControls;
 
     private Vector3 inputResult;
     private Vector2 moveAxis;
@@ -301,12 +302,12 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position + slopeOffset, Vector3.down, out hit, slopeDist, slopeMask))
         {
+                //Debug.Log($"Slope Dot: {Vector3.Dot(Vector3.up, hit.normal)} Slope direction: {Vector3.ProjectOnPlane(transform.forward, hit.normal)} Slope direction(2): {Vector3.Dot(Vector3.ProjectOnPlane(transform.forward, hit.normal), hit.normal)}");
             if (Vector3.Dot(Vector3.up, hit.normal) < slopeThreshold)
             {
                 //Debug.Log($"Slope Result: {Vector3.Dot(Vector3.up, hit.normal)} Force Direction: {Vector3.Cross(Vector3.right, hit.normal)}");
-                //Debug.Log($"Slope direction: {Vector3.Dot(Vector3.ProjectOnPlane(transform.forward, hit.normal), hit.normal)}");
                 Vector3 direction = transform.forward;
-                if (Vector3.Dot(Vector3.ProjectOnPlane(transform.forward, hit.normal), hit.normal) < 0f)
+                if (Vector3.Dot(Vector3.ProjectOnPlane(transform.forward, hit.normal), hit.normal) < -0.1f)
                 {
                     direction = -transform.forward;
                 }
