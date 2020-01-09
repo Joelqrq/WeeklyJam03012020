@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 572586483228222639}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0.018400297, y: -0.20786166, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 2
@@ -88,7 +88,7 @@ MeshCollider:
   m_GameObject: {fileID: 572586483228222639}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -121,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 2409592037290345347}
   m_LocalRotation: {x: -0.5, y: -0.49999997, z: 0.5, w: 0.50000006}
   m_LocalPosition: {x: -1.1392193, y: 0.92772484, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 3
@@ -181,7 +181,7 @@ MeshCollider:
   m_GameObject: {fileID: 2409592037290345347}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -214,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 3031955027069591946}
   m_LocalRotation: {x: 0.270598, y: 0.65328157, z: -0.65328145, w: -0.27059793}
   m_LocalPosition: {x: 0.7971856, y: 1.7359271, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 8
@@ -274,7 +274,7 @@ MeshCollider:
   m_GameObject: {fileID: 3031955027069591946}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 3888786913381471698}
   - component: {fileID: 6613423160591570992}
   - component: {fileID: 8145454857997604418}
+  - component: {fileID: 3607013434901176259}
   m_Layer: 0
   m_Name: Circle.001
   m_TagString: Untagged
@@ -357,6 +358,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3607013434901176259
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3112142831975316902}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 8314571269056883277, guid: 914b2b4534d39ad4a9cf5d59492e4594, type: 3}
 --- !u!1 &3537927585335821266
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +400,7 @@ Transform:
   m_GameObject: {fileID: 3537927585335821266}
   m_LocalRotation: {x: -0.6532815, y: -0.27059805, z: 0.27059805, w: 0.65328145}
   m_LocalPosition: {x: 0.7867433, y: 0.11952286, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 6
@@ -445,7 +460,7 @@ MeshCollider:
   m_GameObject: {fileID: 3537927585335821266}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -475,8 +490,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3889292132194917763}
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.19, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.011375, z: -0.0000000083819}
+  m_LocalScale: {x: 1.2698939, y: 1.189, z: 1}
   m_Children:
   - {fileID: 3888786913381471698}
   - {fileID: 3410792103299946494}
@@ -499,7 +514,7 @@ MeshCollider:
   m_GameObject: {fileID: 3889292132194917763}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -532,7 +547,7 @@ Transform:
   m_GameObject: {fileID: 4608015558119947599}
   m_LocalRotation: {x: -0.5, y: -0.49999997, z: 0.5, w: 0.50000006}
   m_LocalPosition: {x: 1.131954, y: 0.927725, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 4
@@ -592,7 +607,7 @@ MeshCollider:
   m_GameObject: {fileID: 4608015558119947599}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -625,7 +640,7 @@ Transform:
   m_GameObject: {fileID: 6821232651430069290}
   m_LocalRotation: {x: -0.6532815, y: -0.27059805, z: 0.27059805, w: 0.65328145}
   m_LocalPosition: {x: -0.8192186, y: 1.7254848, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 5
@@ -685,7 +700,7 @@ MeshCollider:
   m_GameObject: {fileID: 6821232651430069290}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -718,7 +733,7 @@ Transform:
   m_GameObject: {fileID: 7233338189019780787}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0.018400297, y: 2.0633116, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 1
@@ -778,7 +793,7 @@ MeshCollider:
   m_GameObject: {fileID: 7233338189019780787}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -811,7 +826,7 @@ Transform:
   m_GameObject: {fileID: 8376249599737012608}
   m_LocalRotation: {x: 0.270598, y: 0.65328157, z: -0.65328145, w: -0.27059793}
   m_LocalPosition: {x: -0.8087762, y: 0.12996507, z: 0.011714578}
-  m_LocalScale: {x: 67.774765, y: 544.3392, z: 12.187986}
+  m_LocalScale: {x: 50, y: 544.3392, z: 1}
   m_Children: []
   m_Father: {fileID: 262004062728613776}
   m_RootOrder: 7
@@ -871,7 +886,7 @@ MeshCollider:
   m_GameObject: {fileID: 8376249599737012608}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
