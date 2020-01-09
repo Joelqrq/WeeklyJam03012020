@@ -6,25 +6,24 @@ public class RaceManager : MonoBehaviour
 {
     /*Atributes*/
     [SerializeField]
-    private Transform StartingPoint;
+    private Transform StartingPoint = null;
     [SerializeField]
-    private Transform EndPoint;
+    private Transform EndPoint = null;
     [SerializeField]
-    private GameObject Player;
+    private GameObject Player = null;
+    [SerializeField] private GameManager gameManager = null;
 
     private Transform CheckPoint; 
 
-
     bool RaceFinished = false;
 
-
     private static RaceManager SingletonManager; 
-    public static RaceManager Instace { get { return SingletonManager; } }
+    public static RaceManager Instance { get { return SingletonManager; } }
 
     private void Awake()
     {
         if (SingletonManager && SingletonManager != this)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         else
             SingletonManager = this; 
     }
@@ -53,14 +52,15 @@ public class RaceManager : MonoBehaviour
     public void RestartRace()
     {
         RaceFinished = false;
-        RespawnPlayer(); 
-
+        RespawnPlayer();
+        PowerUpManager.Instance.ChoosePUPhase();
         Debug.Log("Player restart the race"); 
     }
     /*Notifies the player has reached the end*/
     public void PlayerReachedEnd()
     {
         RaceFinished = true;
+        gameManager.StopGame();
         Debug.Log("Player finished the race"); 
     }
     /*Check if race has finished*/

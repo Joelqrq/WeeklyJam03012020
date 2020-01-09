@@ -81,8 +81,15 @@ public class PlayerController : MonoBehaviour
                 CalculateStoppingSpeed();
                 if (moveAxis.sqrMagnitude > 0f)
                 {
-                    speedProgress += Time.deltaTime / timeToMaxSpeed;
-                    currentSpeed = Mathf.Lerp(0f, (PlayerManager.GetMaxSpeed()), speedProgress);
+                    if (timeToMaxSpeed < 0.1f)
+                    {
+                        speedProgress += Time.deltaTime / timeToMaxSpeed;
+                        currentSpeed = Mathf.Lerp(0f, PlayerManager.GetMaxSpeed(), speedProgress);
+                    }
+                    else
+                    {
+                        currentSpeed = PlayerManager.GetMaxSpeed();
+                    }
                     inputResult = ((transform.right * moveAxis.x) + (transform.forward * moveAxis.y)) * currentSpeed;
                 }
                 break;
@@ -94,8 +101,15 @@ public class PlayerController : MonoBehaviour
             case State.Slope:
                 if (moveAxis.sqrMagnitude > 0f)
                 {
-                    speedProgress += Time.deltaTime / timeToMaxSpeed;
-                    currentSpeed = Mathf.Lerp(0f, (PlayerManager.GetMaxSpeed()), speedProgress);
+                    if (timeToMaxSpeed < 0.1f)
+                    {
+                        speedProgress += Time.deltaTime / timeToMaxSpeed;
+                        currentSpeed = Mathf.Lerp(0f, PlayerManager.GetMaxSpeed(), speedProgress);
+                    }
+                    else
+                    {
+                        currentSpeed = PlayerManager.GetMaxSpeed();
+                    }
                     inputResult = (transform.right * moveAxis.x) * currentSpeed;
                 }
                 break;
@@ -230,6 +244,8 @@ public class PlayerController : MonoBehaviour
 
     public void ModifyJumpCount(int amount) => jumpCount += amount;
     public void ModifyDashCount(int amount) => dashCount += amount;
+    public void ModifyJumpSpeed(float multiplier) => PlayerManager.IncreaseMaxJump(PlayerManager.GetMaxJump() * multiplier);
+    public void ModifyDashDist(float multiplier) => dashDistance *= multiplier;
 
     private void WallRun(InputAction.CallbackContext context)
     {
