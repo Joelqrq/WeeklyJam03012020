@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         scoreCanvas.SetActive(true);
         scoreText.text = $"Time taken\n {timeManager.timeTaken.ToString("F1")}";
         yield return new WaitForSeconds(2f);
-        ChangeScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
+        int index = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1 >= UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings ? 0 : UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
+        ChangeScene(index);
     }
 }
