@@ -7,8 +7,10 @@ using UnityEngine;
 public class BasicCamera : MonoBehaviour
 {
     [SerializeField]
-    private Camera ControlledCamera; //Camera affected by this script. 
-
+    private Transform controlledBody = null; //Transform affected by this script. 
+    [SerializeField]
+    private Vector3 cbOffset = Vector3.zero;
+    
     [SerializeField]
     private Quaternion InitialRotation; //Default rotation
     [SerializeField]
@@ -29,20 +31,19 @@ public class BasicCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ControlledCamera = GetComponent<Camera>(); 
         playerControls = new PlayerControls();
         playerControls.Camera.Camera_Movement.started += Move;
         playerControls.Camera.Camera_Movement.Enable();
 
         InitialRotation = transform.rotation;
-
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(transform.rotation.eulerAngles); 
-        if(Timer <= TimeToReachDestination && DesiredRotation != InitialRotation)
+        if (Timer <= TimeToReachDestination && DesiredRotation != InitialRotation)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRotation, Timer / TimeToReachDestination); 
             Timer += Time.deltaTime; 
@@ -61,6 +62,9 @@ public class BasicCamera : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRotation, Timer / (TimeToReachDestination * 3.0f));
             Timer += Time.deltaTime;
         }
+
+        controlledBody.localEulerAngles = Vector3.up * transform.localEulerAngles.y;
+        transform.position = controlledBody.position + cbOffset;
     }
 
     /*Calculates the rotation where should the camera look at*/
@@ -74,7 +78,7 @@ public class BasicCamera : MonoBehaviour
 
         DesiredRotation = Quaternion.Euler(CurrentRotation.x, CurrentRotation.y, 0);
 
-        ResetTimer = 0.0f; Timer = TimeToReachDestination * 0.1f; ; 
+        ResetTimer = 0.0f; Timer = TimeToReachDestination * 0.1f; ;
     }
     /*Clamps rotation to a maxium degree*/
     private Vector3 ClampRotation(Vector3 Rotation)

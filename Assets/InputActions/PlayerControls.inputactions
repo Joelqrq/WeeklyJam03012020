@@ -28,6 +28,22 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Wall Run",
+                    "type": "Button",
+                    "id": "524bdbf0-e73f-44dc-834c-a331267b70d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CancelWallRun",
+                    "type": "Button",
+                    "id": "78b96e8d-df31-4ddf-bbf6-b6ce4b73243e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -107,6 +123,28 @@
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ced284b4-a54f-4c1b-be2d-fcf791141a41",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Hold(pressPoint=0.1)",
+                    "processors": "",
+                    "groups": "Movement",
+                    "action": "Wall Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39d7f8e1-5486-4153-9d3f-fc1a4bf3b012",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Movement",
+                    "action": "CancelWallRun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -129,7 +167,7 @@
                     "id": "6efc22da-1954-4ee8-8838-8c72c269f5ff",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "InvertVector2",
                     "groups": "Movement",
                     "action": "Camera_Movement",
                     "isComposite": false,
