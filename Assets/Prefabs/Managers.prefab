@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreCanvas: {fileID: 0}
+  scoreText: {fileID: 0}
   pauseCanvas: {fileID: 0}
+  timeManager: {fileID: 6457967997196980344}
 --- !u!114 &6457967997196980344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,8 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52a95f68e563544a8aacf2fb3e907cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownTime: 50
   countdownText: {fileID: 0}
+  timeTaken: 0
 --- !u!1 &6067613607356829732
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +110,7 @@ MonoBehaviour:
   StartingPoint: {fileID: 0}
   EndPoint: {fileID: 0}
   Player: {fileID: 0}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 6779192769584895162}
 --- !u!1 &6310993572852427517
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,3 +154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10897f4f13212ce4ba0e1b4822ba6f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  powerupList: {fileID: 11400000, guid: 0e25dfe9b85d1db4ca1c0aad2fd7512e, type: 2}
+  powerCanvas: {fileID: 0}
+  pUButtons:
+  - name: {fileID: 0}
+    description: {fileID: 0}
+    image: {fileID: 0}
+    id: 0
+  - name: {fileID: 0}
+    description: {fileID: 0}
+    image: {fileID: 0}
+    id: 0
