@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4031258898310707025}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: P_Crane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,12 +51,12 @@ GameObject:
   - component: {fileID: 2012487564203430744}
   - component: {fileID: 3665865336142163281}
   - component: {fileID: 2151395926102617279}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Machines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &2012487564203430744
 Transform:
@@ -130,12 +130,12 @@ GameObject:
   - component: {fileID: 111135208603605554}
   - component: {fileID: 8861219469290103992}
   - component: {fileID: 8253792251607030860}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &6406300178621149842
 Transform:
@@ -223,12 +223,12 @@ GameObject:
   - component: {fileID: 4439370709860905716}
   - component: {fileID: 3185107235414564919}
   - component: {fileID: 8253792251607030861}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &5773766565423441791
 Transform:
@@ -315,12 +315,12 @@ GameObject:
   - component: {fileID: 1898151428795194963}
   - component: {fileID: 8113592286269954501}
   - component: {fileID: 4590685345513145419}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: End2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &1898151428795194963
 Transform:
@@ -393,12 +393,12 @@ GameObject:
   - component: {fileID: 835428787337478365}
   - component: {fileID: 6912238413081341327}
   - component: {fileID: 7120769105028674293}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &835428787337478365
 Transform:
@@ -472,12 +472,12 @@ GameObject:
   - component: {fileID: 6710028748463056305}
   - component: {fileID: 8954617691788685381}
   - component: {fileID: 8253792251607030866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &584607711517102085
 Transform:
@@ -564,12 +564,12 @@ GameObject:
   - component: {fileID: 6308190632268285697}
   - component: {fileID: 5050321113920959280}
   - component: {fileID: 539224285440139819}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &6308190632268285697
 Transform:
@@ -644,12 +644,12 @@ GameObject:
   - component: {fileID: 141595940977416049}
   - component: {fileID: 929635039382266575}
   - component: {fileID: 8253792251607030867}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &1947431399912001343
 Transform:
@@ -736,12 +736,12 @@ GameObject:
   - component: {fileID: 5048595069950889824}
   - component: {fileID: 3382865932149885918}
   - component: {fileID: 6583502323722415568}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &5048595069950889824
 Transform:
@@ -814,12 +814,12 @@ GameObject:
   - component: {fileID: 6284066568565342935}
   - component: {fileID: 8946109359330391567}
   - component: {fileID: 4183533338277631086}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &6284066568565342935
 Transform:
