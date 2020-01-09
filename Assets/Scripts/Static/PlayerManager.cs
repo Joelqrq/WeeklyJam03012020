@@ -8,15 +8,15 @@ public static class PlayerManager
 
     /*Default Values*/
     static float DEFAULT_MAX_PLAYER_SPEED = 100.0f;
-    static float DEFAULT_MIN_PLAYER_SPEED = 0.0f;
+    static float DEFAULT_MIN_PLAYER_SPEED = 50.0f;
     static float DEFAULT_MAX_JUMP_FORCE = 50.0f; 
     static float DEFAULT_MIN_JUMP_FORCE = 10.0f;
 
     /*Current Values*/
-    static float MAX_PLAYER_SPEED = 20.0f;
-    static float MIN_PLAYER_SPEED = 0.0f;
-    static float MAX_JUMP_FORCE = 20.0f;
-    static float MIN_JUMP_FORCE = 10.0f;
+    static float MAX_PLAYER_SPEED = 55.0f;
+    static float MIN_PLAYER_SPEED = 50.0f;
+    static float MAX_JUMP_FORCE = 36.0f;
+    static float MIN_JUMP_FORCE = 26.0f;
 
     //Getters
     public static float GetMaxSpeed() { return MAX_PLAYER_SPEED;  }
