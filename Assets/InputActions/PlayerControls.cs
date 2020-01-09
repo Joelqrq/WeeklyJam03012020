@@ -49,6 +49,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""CancelWallRun"",
+                    ""type"": ""Button"",
+                    ""id"": ""78b96e8d-df31-4ddf-bbf6-b6ce4b73243e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -133,10 +141,21 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""ced284b4-a54f-4c1b-be2d-fcf791141a41"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
                     ""processors"": """",
                     ""groups"": ""Movement"",
                     ""action"": ""Wall Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39d7f8e1-5486-4153-9d3f-fc1a4bf3b012"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Movement"",
+                    ""action"": ""CancelWallRun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -184,6 +203,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_WallRun = m_Movement.FindAction("Wall Run", throwIfNotFound: true);
+        m_Movement_CancelWallRun = m_Movement.FindAction("CancelWallRun", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Camera_Movement = m_Camera.FindAction("Camera_Movement", throwIfNotFound: true);
@@ -240,6 +260,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_WallRun;
+    private readonly InputAction m_Movement_CancelWallRun;
     public struct MovementActions
     {
         private @PlayerControls m_Wrapper;
@@ -248,6 +269,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @WallRun => m_Wrapper.m_Movement_WallRun;
+        public InputAction @CancelWallRun => m_Wrapper.m_Movement_CancelWallRun;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -269,6 +291,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @WallRun.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWallRun;
                 @WallRun.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWallRun;
                 @WallRun.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWallRun;
+                @CancelWallRun.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelWallRun;
+                @CancelWallRun.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelWallRun;
+                @CancelWallRun.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCancelWallRun;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -285,6 +310,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @WallRun.started += instance.OnWallRun;
                 @WallRun.performed += instance.OnWallRun;
                 @WallRun.canceled += instance.OnWallRun;
+                @CancelWallRun.started += instance.OnCancelWallRun;
+                @CancelWallRun.performed += instance.OnCancelWallRun;
+                @CancelWallRun.canceled += instance.OnCancelWallRun;
             }
         }
     }
@@ -337,6 +365,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnWallRun(InputAction.CallbackContext context);
+        void OnCancelWallRun(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

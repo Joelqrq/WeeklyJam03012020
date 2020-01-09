@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         playerControls.Movement.Jump.performed += Jump;
         playerControls.Movement.Dash.performed += Dash;
         playerControls.Movement.WallRun.performed += WallRun;
-        playerControls.Movement.WallRun.canceled += StopWallRun;
+        playerControls.Movement.CancelWallRun.performed += StopWallRun;
         playerControls.Enable();
     }
 
@@ -233,6 +233,26 @@ public class PlayerController : MonoBehaviour
 
     private void WallRun(InputAction.CallbackContext context)
     {
+        CheckWallForRun();
+    }
+
+    private void HandleWallRun()
+    {
+        //Change to MovePosition
+        otherResult += transform.forward * PlayerManager.GetMaxSpeed() * wrMultiplier;
+    }
+
+    private void StopWallRun(InputAction.CallbackContext context)
+    {
+        if (state != State.WallRun)
+            return;
+
+        state = State.Normal;
+        Debug.Log($"WallRun to Normal: {state}");
+    }
+
+    private void CheckWallForRun()
+    {
         RaycastHit hit;
         if (Physics.Raycast(transform.position + wrOffset, -transform.right, out hit, wrDist, wrMask))
         {
@@ -253,16 +273,6 @@ public class PlayerController : MonoBehaviour
             state = State.WallRun;
             Debug.Log(Vector3.Angle(hit.normal, transform.forward));
         }
-    }
-
-    private void HandleWallRun()
-    {
-        otherResult += transform.forward * PlayerManager.GetMaxSpeed() * wrMultiplier;
-    }
-
-    private void StopWallRun(InputAction.CallbackContext context)
-    {
-        state = State.Normal;
     }
 
     private bool IsGrounded()
